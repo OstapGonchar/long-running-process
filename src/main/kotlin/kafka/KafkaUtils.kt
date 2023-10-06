@@ -1,0 +1,4 @@
+package kafka
+
+class KafkaUtils {
+}

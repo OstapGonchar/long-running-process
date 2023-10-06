@@ -1,0 +1,4 @@
+package status
+
+class StatusObserver {
+}
