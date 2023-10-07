@@ -19,13 +19,18 @@ class KafkaUtils {
         return KafkaProducer<String, Request>(producerProperties)
     }
 
-    fun getConsumer(consumerGroup: String, pollRecords: Int = 1): KafkaConsumer<String, Request> {
+    fun getConsumer(
+        consumerGroup: String,
+        pollRecords: Int = 1,
+        enableAutoCommit: Boolean = true
+    ): KafkaConsumer<String, Request> {
         val configPath = javaClass.classLoader.getResource("consumer.properties").path
         val consumerProperties = loadConfig(configPath)
         consumerProperties[ConsumerConfig.GROUP_ID_CONFIG] = consumerGroup
         consumerProperties["value.deserializer.type"] = Request::class.java
         consumerProperties[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
         consumerProperties[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = pollRecords
+        consumerProperties[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = enableAutoCommit
         return KafkaConsumer<String, Request>(consumerProperties)
     }
 
